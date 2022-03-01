@@ -3,23 +3,23 @@ package simulator.model;
 import org.json.JSONObject;
 
 public abstract class SimulatedObject {
-
 	protected String _id;
-
-	protected SimulatedObject(String id) {
-		_id = id;
-	}
-
+	
+	SimulatedObject(String id) {
+		if ( id == null || id.length() == 9)
+			throw new IllegalArgumentException("the ’id’ must be a nonemptystring.");
+		else
+			_id = id;	
+		}
 	public String getId() {
 		return _id;
 	}
-
 	@Override
 	public String toString() {
 		return _id;
 	}
-
-	protected abstract void advance(int time);
-
+	
+	abstract void advance(int time);
+	
 	abstract public JSONObject report();
 }
