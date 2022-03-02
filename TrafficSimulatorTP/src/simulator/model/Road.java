@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,9 +20,8 @@ public abstract class Road extends SimulatedObject{
 	protected Weather weather_condition;
 	protected int total_cont;
 	protected List<Vehicle> vehicles;
-	protected VehicleCompare comp;
 	
-	protected Road(String id, Junction srcJunc, Junction destJunct, int maxSpeed, int contLimit, int length, Weather weather) {
+	Road(String id, Junction srcJunc, Junction destJunct, int maxSpeed, int contLimit, int length, Weather weather) {
 		super(id);
 		if (junctionValid(srcJunc) && junctionValid(destJunct) && maxSpeedValid(maxSpeed) && contLimitValid(contLimit) && lengthValid(length) && weatherValid(weather))
 		{
@@ -33,18 +33,20 @@ public abstract class Road extends SimulatedObject{
 			this.length = length;
 			this.weather_condition = weather;
 			this.total_cont = 0;
+			vehicles = new ArrayList<Vehicle>();
 		}
 		else {
 			throw new IllegalArgumentException("Cannot create road with the arguments provided");
 		}		
 	}
 
+
 	@Override
 	protected void advance(int time) {
 		reduceTotalContamination();
 		updateSpeedLimit();
 		for (Vehicle vehicle : vehicles) {
-			vehicle.setspeed(calculateVehicleSpeed(vehicle));
+			vehicle.setSpeed(calculateVehicleSpeed(vehicle));
 			vehicle.advance(time);
 		}
 		vehicles.sort(new VehicleCompare());//desc order
@@ -86,9 +88,9 @@ public abstract class Road extends SimulatedObject{
 		return weather != null;
 	}
 	
-	private void enter(Vehicle v) {
+	private void enter(Vehicle v) throws IllegalArgumentException{
 		if (v.getLocation() != 0 || v.getSpeed() != 0) {
-			throw new Myexception;
+			throw new IllegalArgumentException("When entering a road speed and position must be 0");
 		}
 		vehicles.add(v);
 	}
@@ -97,16 +99,16 @@ public abstract class Road extends SimulatedObject{
 		vehicles.remove(v);
 	}
 	
-	private void setWeather(Weather w) {
+	private void setWeather(Weather w) throws IllegalArgumentException{
 		if (!weatherValid(w)) {
-			throw new Myexception;
+			throw new IllegalArgumentException("Weather condition is not valid");
 		}
 		this.weather_condition = w;
 	}
 	
-	private void addContamination(int c) {
+	public void addContamination(int c) throws IllegalArgumentException{
 		if (!contLimitValid(c)) {
-			throw new Myexception;
+			throw new IllegalArgumentException("Contamination limit should be positive");
 		}
 		this.cont_alarm += c;
 	}
@@ -145,21 +147,16 @@ public abstract class Road extends SimulatedObject{
 
 	public List<Vehicle> getVehicles() {
 		return Collections.unmodifiableList(vehicles);
+	}	
+
+	public void setLigthJunction(int currentGreen) {
+		this.src.setCurrentGreen(currentGreen);
 	}
 
 	abstract void reduceTotalContamination();
 	
 	abstract void updateSpeedLimit();
-	
-	private void moveToNextRoad()
-	{
 		
-	}
-	
-	public void set() {
-		
-	}
-	
 	abstract int calculateVehicleSpeed(Vehicle v);
 
 }

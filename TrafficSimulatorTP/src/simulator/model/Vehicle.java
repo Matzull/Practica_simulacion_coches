@@ -72,17 +72,17 @@ public class Vehicle extends SimulatedObject{
 		return ret;
 	}	
 
-	public void setSpeed(int s){
+	public void setSpeed(int s)throws IllegalArgumentException{
 		if (!isMaxSpeedValid(s)) {
-			throw new Myexception;
+			throw new IllegalArgumentException();
 		}
 		Speed = (s < maxSpeed) ? s : maxSpeed;    
 	}
-	
-	private void setContaminationClass(int c){
+
+	private void setContaminationClass(int c)throws IllegalArgumentException{
 		if(!isContValid(c))
 		{
-			throw new Myexception;
+			throw new IllegalArgumentException();
 		}
 		contClass = c;
 	}
@@ -90,15 +90,15 @@ public class Vehicle extends SimulatedObject{
 	private void setState(VehicleStatus status) {
 		this.status = status;
 		if (status != VehicleStatus.TRAVELING) {
-			setspeed(0);
+			setSpeed(0);
 		}
 	}
 	
 	public void advance(int time) {
-		if (this.status != VehicleStatus.TRAVELING) {
+		if (this.status == VehicleStatus.TRAVELING) 
+		{
+			int aux=Location;
 			
-		}
-		else {
 			if(Location+maxSpeed < road.getLength()) {
 				Location += maxSpeed;
 			}
@@ -106,7 +106,14 @@ public class Vehicle extends SimulatedObject{
 				Location=road.getLength();
 			}
 			
+			int c = contClass * (Location-aux);			
+			totalCO2 += c;
+			road.addContamination(c);
 			
+			if(Location >= road.getLength()) {
+				//llamar a metodo de junction
+				status = VehicleStatus.WAITING;
+			}
 		}
 	}
 
@@ -153,7 +160,10 @@ public class Vehicle extends SimulatedObject{
 			else if (o1.getLocation() > o2.getLocation()) {
 				ret = 1;
 			}
-			return 0;
+			else {
+				ret = 0;
+			}
+			return ret;
 		}
 	}
 
