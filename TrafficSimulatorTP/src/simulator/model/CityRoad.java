@@ -8,7 +8,7 @@ public class CityRoad extends Road {
 
 	@Override
 	void reduceTotalContamination() {	
-		int reduction = (weather_condition == Weather.STORMY || weather_condition == Weather.WINDY) ? 10 : 2 ;
+		int reduction = (weather_condition == Weather.STORM || weather_condition == Weather.WINDY) ? 10 : 2 ;
 		total_cont = (total_cont - reduction < 0) ? 0 : total_cont - reduction;
 	}
 

@@ -7,12 +7,12 @@ import simulator.model.Event;
 import simulator.model.LightSwitchingStrategy;
 import simulator.model.NewJunctionEvent;
 
-public class NewJuntionEventBuilder extends Builder<Event>{
+public class NewJunctionEventBuilder extends Builder<Event>{
 
 	private Factory<LightSwitchingStrategy> lsStrategy;
 	private Factory<DequeuingStrategy> dqStrategy;
 	
-	NewJuntionEventBuilder(Factory<LightSwitchingStrategy> lsStrategy, Factory<DequeuingStrategy> dqStrategy) {
+	NewJunctionEventBuilder(Factory<LightSwitchingStrategy> lsStrategy, Factory<DequeuingStrategy> dqStrategy) {
 		super("new_junction");
 		this.lsStrategy = lsStrategy;
 		this.dqStrategy = dqStrategy;

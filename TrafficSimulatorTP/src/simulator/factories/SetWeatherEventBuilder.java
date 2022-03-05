@@ -28,7 +28,7 @@ public class SetWeatherEventBuilder extends Builder<Event>{
 			weather = Weather.valueOf(arr.getJSONObject(i).getString("weather").toUpperCase());
 			ws.add(new Pair<String, Weather>(road, weather));
 		}
-		return new SetWeatherEvent(data.getInt("time"), null);
+		return new SetWeatherEvent(data.getInt("time"), ws);
 	}
 
 }

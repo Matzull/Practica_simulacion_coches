@@ -22,7 +22,7 @@ public class InterCityRoad extends Road {
 		case WINDY:
 			x = 10;
 			break;
-		case STORMY:
+		case STORM:
 			x = 20;
 			break;
 		default:
@@ -39,7 +39,7 @@ public class InterCityRoad extends Road {
 
 	@Override
 	int calculateVehicleSpeed(Vehicle v) {
-		return (weather_condition == Weather.STORMY) ? (speed_limit * 8)/10 : speed_limit;
+		return (weather_condition == Weather.STORM) ? (speed_limit * 8)/10 : speed_limit;
 	}
 
 }

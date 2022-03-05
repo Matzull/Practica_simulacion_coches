@@ -88,7 +88,7 @@ class InterCityRoadTest {
 		assertEquals(50, v1.getTotalCO2());
 		assertEquals(300, v2.getTotalCO2());
 
-		r1.setWeather(Weather.STORMY);
+		r1.setWeather(Weather.STORM);
 		r1.advance(1);
 
 		// speed limit changed
