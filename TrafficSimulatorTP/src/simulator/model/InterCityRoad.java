@@ -39,8 +39,7 @@ public class InterCityRoad extends Road {
 
 	@Override
 	int calculateVehicleSpeed(Vehicle v) {
-		v.setSpeed((weather_condition == Weather.STORMY) ? (speed_limit * 8)/10 : speed_limit);
-		return 0;
+		return (weather_condition == Weather.STORMY) ? (speed_limit * 8)/10 : speed_limit;
 	}
 
 }

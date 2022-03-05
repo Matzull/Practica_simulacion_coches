@@ -29,24 +29,43 @@ public class RoadMap {
 	}
 	
 	public void addJunction(Junction j) {
-		if (junctionMap.get(j.getId()) == null) {
-			junctionList.add(j);
-			junctionMap.put(j.getId(), j);
+		if (junctionMap.get(j.getId()) != null) {
+			throw new IllegalArgumentException();
 		}
+		junctionList.add(j);
+		junctionMap.put(j.getId(), j);
 	}
 	
 	public void addRoad(Road r) {
-		if (roadMap.get(r.getId()) == null) {
-			roadList.add(r);
-			roadMap.put(r.getId(), r);
+		if (roadMap.get(r.getId()) != null || !junctionList.contains(r.getSrc()) || !junctionList.contains(r.getDest())) {
+			throw new IllegalArgumentException();
 		}
+		roadList.add(r);
+		roadMap.put(r.getId(), r);
 	}
 	
 	public void addVehicle(Vehicle v) {
-		if (vehicleMap.get(v.getId()) == null) {
-			vehicleList.add(v);
-			vehicleMap.put(v.getId(), v);
+		if (vehicleMap.get(v.getId()) != null) {
+			throw new IllegalArgumentException();
 		}
+		boolean con;
+		Junction src;
+		Junction dst;
+		for (int i = 0; i < v.getItinerary().size() - 1; i++) {
+			con = false;
+			src = v.getItinerary().get(i);
+			dst = v.getItinerary().get(i + 1);
+			for (Road road : roadList) {
+				if (road.getSrc() == src && road.getDest() == dst) {
+					con = true;
+				}
+			}
+				if (!con) {
+					throw new IllegalArgumentException();
+				}
+		}
+		vehicleList.add(v);
+		vehicleMap.put(v.getId(), v);
 	}
 	
 	public Junction getJunction(String id)
@@ -70,6 +89,8 @@ public class RoadMap {
 		return Collections.unmodifiableList(new ArrayList<>(junctionList));
 	}
 	
+	
+	
 	public List<Road>getRoads()
 	{
 		return Collections.unmodifiableList(new ArrayList<>(roadList));
@@ -80,7 +101,7 @@ public class RoadMap {
 		return Collections.unmodifiableList(new ArrayList<>(vehicleList));
 	}
 	
-	private void reset() 
+	public void reset() 
 	{
 		junctionList.clear();
 		roadList.clear();

@@ -3,14 +3,14 @@ package simulator.model;
 public abstract class NewRoadEvent extends Event{
 
 	protected String id;
-	protected Junction srcJunc;
-	protected Junction destJunc;
+	protected String srcJunc;
+	protected String destJunc;
 	protected int length;
 	protected int co2Limit;
 	protected int maxSpeed;
 	protected Weather weather;
 	
-	public NewRoadEvent(int time, String id, Junction srcJunc, Junction destJunc, int length, int co2Limit, int maxSpeed, Weather weather)
+	public NewRoadEvent(int time, String id, String srcJunc, String destJunc, int length, int co2Limit, int maxSpeed, Weather weather)
 	{
 		super(time);
 		this.id = id;

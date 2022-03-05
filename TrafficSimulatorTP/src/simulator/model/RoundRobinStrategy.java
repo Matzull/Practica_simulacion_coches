@@ -6,7 +6,7 @@ public class RoundRobinStrategy implements LightSwitchingStrategy {
 
 	int timeSlot;
 	
-	private RoundRobinStrategy(int timeSlot) {
+	public RoundRobinStrategy(int timeSlot) {
 		this.timeSlot=timeSlot;
 	}
 	
