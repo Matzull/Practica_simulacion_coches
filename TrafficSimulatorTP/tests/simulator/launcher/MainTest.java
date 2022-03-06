@@ -22,7 +22,8 @@ class MainTest {
 			JSONObject jo2 = new JSONObject(new JSONTokener(new FileInputStream(expectedOutFile)));
 			
 			//currRunOutFile.delete();
-			
+			System.out.println(jo1.toString());
+			System.out.println(jo2.toString());
 			return jo1.similar(jo2);
 		} catch (Exception e) {
 			throw new RuntimeException(e);

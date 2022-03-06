@@ -17,7 +17,7 @@ import simulator.model.Weather;
 
 public class NewVehicleEventBuilder extends Builder<Event>{
 
-	NewVehicleEventBuilder() {
+	public NewVehicleEventBuilder() {
 		super("new_vehicle");
 	}
 

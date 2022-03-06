@@ -96,14 +96,9 @@ public class Junction extends SimulatedObject{
 		}		
 	}
 
-	void enter(Vehicle v) {//esta funcion no escribe en la road de v, escribe en queueRoad y RoadqueueMap
+	void enter(Vehicle v) {
 		
-		int index;
-		
-		index = queueRoads.indexOf(v.getRoad());		
-		
-		queueRoads.get(index).add(v);
-		
+		queueRoads.get(incomingRoads.indexOf(v.getRoad())).add(v);		
 	}
 	
 	public Road roadTo(Junction j) {

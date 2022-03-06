@@ -1,3 +1,4 @@
+
 package simulator.model;
 
 import java.util.ArrayList;
@@ -85,13 +86,17 @@ public class Vehicle extends SimulatedObject{
 		return ret;
 	}	
 
-	public void setSpeed(int s)throws IllegalArgumentException{
-		if (!isMaxSpeedValid(s)) {
-			throw new IllegalArgumentException();
-		}
+	public void setSpeed(int s)throws IllegalArgumentException{	
 		if (status == VehicleStatus.TRAVELING) {
-			Speed = (s < maxSpeed) ? s : maxSpeed; 
-		}	   
+			if (!isMaxSpeedValid(s)) {
+				throw new IllegalArgumentException();
+			}
+			Speed = (s < maxSpeed) ? s : maxSpeed;
+		}
+		
+		else {
+			Speed = 0;
+		}   
 	}
 
 	void setContClass(int c)throws IllegalArgumentException{
@@ -110,11 +115,12 @@ public class Vehicle extends SimulatedObject{
 	}
 	
 	public void advance(int time) {
+		
 		if (this.status == VehicleStatus.TRAVELING) 
 		{
 			int aux=Location;
 			
-			if(Location+maxSpeed < road.getLength()) {
+			if(Location + Speed < road.getLength()) {
 				Location += Speed;
 			}
 			else {
@@ -125,17 +131,22 @@ public class Vehicle extends SimulatedObject{
 			
 			int c = contClass * (Location-aux);			
 			totalCO2 += c;
-			road.addContamination(c);
-			
-			if(Location >= road.getLength() - 1) {
-				//llamar a metodo de junction
-				status = VehicleStatus.WAITING;
+			road.addContamination(c);		
+			if(Location >= road.getLength() ) {
+				Speed = 0;
+				itineraryIndex++;
+				status = VehicleStatus.WAITING;				
+				road.getDest().enter(this);
 			}
 		}
+		
+		else{
+			Speed=0;	
+		}
 	}
-
+	
 	public List<Junction> getItinerary() {
-		return itinerary;
+		return Collections.unmodifiableList(new ArrayList<>(itinerary));
 	}
 
 	public int getMaxSpeed() {
@@ -171,28 +182,24 @@ public class Vehicle extends SimulatedObject{
 		{
 			throw new IllegalArgumentException();
 		}
-		if(itinerary.size() - 1 == itineraryIndex) {
+		if(itinerary.size() -1 == itineraryIndex) {
 			road.exit(this);
-			road = null;
 			status=VehicleStatus.ARRIVED;
 		}
 		else if(status==VehicleStatus.PENDING) {
 			road=itinerary.get(0).roadTo(itinerary.get(1));
 			road.enter(this);
 			status = VehicleStatus.TRAVELING;
-			itineraryIndex++;
 		}
 		else {		
 			road.exit(this);
+			Location = 0;
 			road=itinerary.get(itineraryIndex).roadTo(itinerary.get(itineraryIndex+1));
 			status = VehicleStatus.TRAVELING;
-			road.enter(this);
-			itineraryIndex++;		
+			road.enter(this);		
 		}
 	}
 }
-
-
 
 
 
