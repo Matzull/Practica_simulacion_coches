@@ -188,15 +188,16 @@ public class Vehicle extends SimulatedObject{
 		}
 		else if(status==VehicleStatus.PENDING) {
 			road=itinerary.get(0).roadTo(itinerary.get(1));
-			road.enter(this);
+			Location = 0;
+			road.enter(this);	
 			status = VehicleStatus.TRAVELING;
 		}
 		else {		
 			road.exit(this);
-			Location = 0;
 			road=itinerary.get(itineraryIndex).roadTo(itinerary.get(itineraryIndex+1));
+			Location = 0;
+			road.enter(this);	
 			status = VehicleStatus.TRAVELING;
-			road.enter(this);		
 		}
 	}
 }
