@@ -1,3 +1,0 @@
--Objects.simulated - Vehicle 
-	El constructor llama a super pero en package private tiene que estar en el mismo paquete
-	Pasa lo mismo en advance
