@@ -175,6 +175,7 @@ public class Main {
 		Controller ctrl = new Controller(new TrafficSimulator(), _eventsFactory);
 		try { 
 		    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		    ctrl.loadEvents(new FileInputStream(_inFile));
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}

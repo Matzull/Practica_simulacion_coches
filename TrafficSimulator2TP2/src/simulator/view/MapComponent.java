@@ -35,6 +35,11 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 	private static final Color _GREEN_LIGHT_COLOR = Color.GREEN;
 	private static final Color _RED_LIGHT_COLOR = Color.RED;
 
+	private int Tmin_x = 0;
+	private int Tmax_x = 200;
+	private int Tmin_y = 0;
+	private int Tmax_y = 200;
+	
 	private RoadMap _map;
 
 	private Image _car;
@@ -77,10 +82,10 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 		for (Road r : _map.getRoads()) {
 
 			// the road goes from (x1,y1) to (x2,y2)
-			int x1 = r.getSrc().getX();
-			int y1 = r.getSrc().getY();
-			int x2 = r.getDest().getX();
-			int y2 = r.getDest().getY();
+			int x1 = r.getSrc().getX() + Tmin_x;
+			int y1 = r.getSrc().getY() + Tmin_y;
+			int x2 = r.getDest().getX() + Tmin_x;
+			int y2 = r.getDest().getY() + Tmin_y;
 
 			// choose a color for the arrow depending on the traffic light of the road
 			Color arrowColor = _RED_LIGHT_COLOR;
@@ -113,10 +118,10 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 				// The calculation below compute the coordinate (vX,vY) of the vehicle on the
 				// corresponding road. It is calculated relatively to the length of the road, and
 				// the location on the vehicle.
-				int x1 = r.getSrc().getX();
-				int y1 = r.getSrc().getY();
-				int x2 = r.getDest().getX();
-				int y2 = r.getDest().getY();
+				int x1 = r.getSrc().getX() + Tmin_x;
+				int y1 = r.getSrc().getY() + Tmin_y;
+				int x2 = r.getDest().getX() + Tmin_x;
+				int y2 = r.getDest().getY() + Tmin_y;
 
 				double f = ((float)v.getLocation()) / r.getLength();
 				int vX = (int)(x1 + (x2-x1)*f); 
@@ -139,8 +144,8 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 		for (Junction j : _map.getJunctions()) {
 
 			// (x,y) are the coordinates of the junction
-			int x = j.getX();
-			int y = j.getY();
+			int x = j.getX() + Tmin_x;
+			int y = j.getY() + Tmin_y;
 
 			// draw a circle with center at (x,y) with radius _JRADIUS
 			g.setColor(_JUNCTION_COLOR);
@@ -155,17 +160,23 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 	// this method is used to update the preffered and actual size of the component,
 	// so when we draw outside the visible area the scrollbars show up
 	private void updatePrefferedSize() {
-		int maxW = 200;
-		int maxH = 200;
+		List <Junction> juncts = _map.getJunctions();
+		Tmin_x = juncts.get(0).getX();
+		Tmin_y = juncts.get(0).getY();
+		Tmax_x = 200;
+		Tmax_y = 200;
 		for (Junction j : _map.getJunctions()) {
-			maxW = Math.max(maxW, j.getX());
-			maxH = Math.max(maxH, j.getY());
+			Tmax_x = Math.max(Tmax_x, j.getX());
+			Tmax_y = Math.max(Tmax_y, j.getY());
+			Tmin_x = Math.min(Tmin_x, j.getX());
+			Tmin_y = Math.min(Tmin_x, j.getY());
 		}
-		maxW += 20;
-		maxH += 20;
-		if (maxW > getWidth() || maxH > getHeight()) {
-			setPreferredSize(new Dimension(maxW, maxH));
-			setSize(new Dimension(maxW, maxH));
+		Tmax_x += 20;
+		Tmax_y += 20;
+		
+		if (Tmax_x > getWidth() || Tmax_y > getHeight()) {
+			setPreferredSize(new Dimension(Tmax_x - Tmin_y, Tmax_y - Tmin_y));
+			setSize(new Dimension(Tmax_x - Tmin_y, Tmax_y - Tmin_y));
 		}
 	}
 

@@ -3,6 +3,7 @@ package simulator.view;
 import java.awt.*;
 
 import javax.swing.*;
+import javax.swing.border.*;
 
 import simulator.control.Controller;
 
@@ -33,28 +34,40 @@ public class MainWindow extends JFrame {
 		// tables
 		JPanel eventsView = createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Events");
 		eventsView.setPreferredSize(new Dimension(500, 200));
+		Border EBorder = new TitledBorder(new EtchedBorder(), "Events");
+        eventsView.setBorder(EBorder);
 		tablesPanel.add(eventsView);
 		/////////////////////////////
 		JPanel vehiclesView = createViewPanel(new JTable(new VehiclesTableModel(_ctrl)), "Vehicles");
 		vehiclesView.setPreferredSize(new Dimension(500, 200));
+		Border VBorder = new TitledBorder(new EtchedBorder(), "Vehicles");
+		vehiclesView.setBorder(VBorder);
 		tablesPanel.add(vehiclesView);
 		////////////////////////////
 		JPanel roadsView = createViewPanel(new JTable(new RoadsTableModel(_ctrl)), "Roads");
 		roadsView.setPreferredSize(new Dimension(500, 200));
+		Border RBorder = new TitledBorder(new EtchedBorder(), "Roads");
+		roadsView.setBorder(RBorder);
 		tablesPanel.add(roadsView);
 		////////////////////////////
 		JPanel junctionsView = createViewPanel(new JTable(new JunctionsTableModel(_ctrl)), "Junctions");
 		junctionsView.setPreferredSize(new Dimension(500, 200));
+		Border JBorder = new TitledBorder(new EtchedBorder(), "Junctions");
+		junctionsView.setBorder(JBorder);
 		tablesPanel.add(junctionsView);
 		// TODO add other tables
 		// ...
 		// maps
 		JPanel mapView = createViewPanel(new MapComponent(_ctrl), "Map");
 		mapView.setPreferredSize(new Dimension(500, 400));
+		Border MBorder = new TitledBorder(new EtchedBorder(), "Map");
+		mapView.setBorder(MBorder);
 		mapsPanel.add(mapView);
 		// TODO add a map for MapByRoadComponent
-		JPanel mapView2 = createViewPanel(new MapByRoadComponent(_ctrl), "MapMap2");
+		JPanel mapView2 = createViewPanel(new MapByRoadComponent(_ctrl), "Map by Road");
 		mapView2.setPreferredSize(new Dimension(500, 400));
+		Border MRBorder = new TitledBorder(new EtchedBorder(), "Map by Road");
+		mapView2.setBorder(MRBorder);
 		mapsPanel.add(mapView2);
 		// ...
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
