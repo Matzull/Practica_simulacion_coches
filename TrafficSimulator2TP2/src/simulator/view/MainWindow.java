@@ -55,8 +55,6 @@ public class MainWindow extends JFrame {
 		Border JBorder = new TitledBorder(new EtchedBorder(), "Junctions");
 		junctionsView.setBorder(JBorder);
 		tablesPanel.add(junctionsView);
-		// TODO add other tables
-		// ...
 		// maps
 		JPanel mapView = createViewPanel(new MapComponent(_ctrl), "Map");
 		mapView.setPreferredSize(new Dimension(500, 400));
