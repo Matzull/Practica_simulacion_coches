@@ -78,11 +78,6 @@ public class MapByRoadComponent extends JPanel implements TrafficSimObserver{
 	}
 
 	private void drawMap(Graphics g) {
-		drawRoads(g);
-		//drawJunctions(g);
-	}
-
-	private void drawRoads(Graphics g) {
 		int inc_y = getHeight()/(_map.getRoads().size() + 1);
 		int y = inc_y;
 		int x1 = 50; 

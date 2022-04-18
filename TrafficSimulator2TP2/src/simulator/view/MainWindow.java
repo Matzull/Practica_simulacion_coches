@@ -61,13 +61,13 @@ public class MainWindow extends JFrame {
 		Border MBorder = new TitledBorder(new EtchedBorder(), "Map");
 		mapView.setBorder(MBorder);
 		mapsPanel.add(mapView);
-		// TODO add a map for MapByRoadComponent
+		///////////////////////////
 		JPanel mapView2 = createViewPanel(new MapByRoadComponent(_ctrl), "Map by Road");
 		mapView2.setPreferredSize(new Dimension(500, 400));
 		Border MRBorder = new TitledBorder(new EtchedBorder(), "Map by Road");
 		mapView2.setBorder(MRBorder);
 		mapsPanel.add(mapView2);
-		// ...
+		//////////////////////////
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
